@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Calculator</title>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: #99a6c1;
+            margin: 0;
+        }
+
+        div {
+            background: #1e1e1e;
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0px 8px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        h1 {
+            background-color: #21252b;
+            color: #61dafb;
+            text-align: right;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            font-size: 28px;
+            height: 60px;
+            box-sizing: border-box;
+            overflow: hidden;
+        }
+
+        button {
+            flex: 1;
+            height: 60px;
+            width: 60px;
+            margin: 7px;
+            border: none;
+            border-radius: 30px;
+            font-size: 20px;
+            color: #fff;
+            background: linear-gradient(135deg, #21252b, #282c34);
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        button:hover {
+            background: #a5bdf0;
+            color: #5a6782;
+            box-shadow: 0px 6px 12px rgba(158, 204, 240, 0.4);
+        }
+
+        button:active {
+            transform: scale(0.95);
+            box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .del {
+            background: linear-gradient(135deg, #ec48b5, #c0392b);
+        }
+
+        .add, .sub, .mul, .div {
+            background: linear-gradient(135deg, #e276e4, #920651);
+        }
+
+        .equ {
+            background: linear-gradient(135deg, #2ecc71, #27ae60);
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <div>
+            <h1 id="dis">0</h1>
+        </div>
+        <div>
+            <button class="b7">7</button>
+            <button class="b8">8</button>
+            <button class="b9">9</button>
+            <button class="del">del</button>
+        </div>
+        <div>
+            <button class="b4">4</button>
+            <button class="b5">5</button>
+            <button class="b6">6</button>
+            <button class="add">+</button>
+        </div>
+        <div>
+            <button class="b1">1</button>
+            <button class="b2">2</button>
+            <button class="b3">3</button>
+            <button class="sub">-</button>
+        </div>
+        <div>
+            <button class="b0">0</button>
+            <button class="mul">*</button>
+            <button class="div">÷</button>
+            <button class="equ" id="calc">=</button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const display = document.getElementById("dis");
+            let currentInput = "";
+
+            function updateDisplay(value) {
+                display.textContent = value;
+            }
+
+            function clearDisplay() {
+                currentInput = "";
+                updateDisplay("0");
+            }
+
+            function calculateResult() {
+                try {
+                    currentInput = currentInput.replace(/÷/g, "/");
+                    const result = eval(currentInput);
+                    currentInput = result.toString();
+                    updateDisplay(currentInput);
+                } catch {
+                    updateDisplay("Error");
+                }
+            }
+
+            document.querySelectorAll("button").forEach(button => {
+                button.addEventListener("click", function() {
+                    const value = this.textContent;
+
+                    if (value >= "0" && value <= "9" || value === "+" || value === "-" || value === "*" || value === "÷") {
+                        currentInput += value;
+                        updateDisplay(currentInput);
+                    } else if (value === "=") {
+                        calculateResult();
+                    } else if (value === "del") {
+                        clearDisplay();
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
